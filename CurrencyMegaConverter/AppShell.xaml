@@ -8,7 +8,7 @@
     Title="CurrencyMegaConverter">
 
     <ShellContent
-        Title="Home"
+        Title="SUPER MEGA HYPER CYBER CONVERTER"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
