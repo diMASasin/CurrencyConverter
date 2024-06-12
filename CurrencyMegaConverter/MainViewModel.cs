@@ -89,6 +89,12 @@ namespace CurrencyMegaConverter
             var response = _client.GetAsync(uri).Result;
             var result = response.Content.ReadAsStringAsync().Result;
 
+            if (ExchangeRates != null)
+            {
+                ExchangeRates.DatePicked -= ChangeDate;
+                ExchangeRates.DatePicked -= OnValute1NominalChanged;
+            }
+
             ExchangeRates = JsonSerializer.Deserialize<ExchangeRates>(result);
             ExchangeRates.Valute.Add(_ruble.CharCode, _ruble);
             ExchangeRates.DatePicked += ChangeDate;
@@ -102,6 +108,9 @@ namespace CurrencyMegaConverter
 
         private void InitValute()
         {
+            if (_valute1 != null) _valute1.NominalChanged -= OnValute1NominalChanged;
+            if (_valute2 != null) _valute2.NominalChanged -= OnValute2NominalChanged;
+
             CurrencyCharCodes = ExchangeRates.Valute.Keys.ToArray();
             _currencyNames = ExchangeRates.Valute.Values
                 .Select(value => value.Name)
